@@ -1,9 +1,11 @@
 import json
 import re
+import os
+from config import CONFUSABLE_MAPPING_PATH
 
 
 # read confusable mappings from file, build 2-way map of the pairs
-with open("confusable_mapping.json", "r") as mappings:
+with open(os.path.join(os.path.dirname(__file__), CONFUSABLE_MAPPING_PATH), "r") as mappings:
     CONFUSABLE_MAP = json.loads(mappings.readline())
 
 

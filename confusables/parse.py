@@ -1,6 +1,8 @@
 import json
 from unicodedata import normalize
 import string
+import os
+from config import CUSTOM_CONFUSABLE_PATH, CONFUSABLES_PATH, CONFUSABLE_MAPPING_PATH
 
 def _asciify(char):
     return normalize('NFD',char).encode('ascii', 'ignore').decode('ascii')
@@ -18,11 +20,11 @@ def _get_confusable_chars(character, unicode_confusable_map, remaining_chars):
             group.extend(_get_confusable_chars(mapped_char, unicode_confusable_map, remaining_chars))
     return group
 
-def parse_new_mapping_file(confusables_path, custom_confusables, mapping_path):
+def parse_new_mapping_file():
     unicode_confusable_map = {}
 
-    with open(confusables_path, "r") as unicode_mappings:
-        with open(custom_confusables, "r") as custom_mappings:
+    with open(os.path.join(os.path.dirname(__file__), CONFUSABLES_PATH), "r") as unicode_mappings:
+        with open(os.path.join(os.path.dirname(__file__), CUSTOM_CONFUSABLE_PATH), "r") as custom_mappings:
             mappings = unicode_mappings.readlines()
             mappings.extend(custom_mappings)
 
@@ -77,8 +79,8 @@ def parse_new_mapping_file(confusables_path, custom_confusables, mapping_path):
         for i in range(len(char_group)):
             CONFUSABLE_MAP[char_group[i]] = char_group[:i] + char_group[i+1:]
 
-    mapping_file = open(mapping_path, "w")
+    mapping_file = open(os.path.join(os.path.dirname(__file__), CONFUSABLE_MAPPING_PATH), "w")
     mapping_file.write(json.dumps(CONFUSABLE_MAP))
     mapping_file.close()
 
-parse_new_mapping_file("confusables.txt", "custom_confusables.txt", "confusable_mapping.json")
+parse_new_mapping_file()
