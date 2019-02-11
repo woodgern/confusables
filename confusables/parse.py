@@ -2,7 +2,7 @@ import json
 from unicodedata import normalize
 import string
 import os
-from config import CUSTOM_CONFUSABLE_PATH, CONFUSABLES_PATH, CONFUSABLE_MAPPING_PATH
+from config import CUSTOM_CONFUSABLE_PATH, CONFUSABLES_PATH, CONFUSABLE_MAPPING_PATH, MAX_SIMILARITY_DEPTH
 
 def _asciify(char):
     return normalize('NFD',char).encode('ascii', 'ignore').decode('ascii')
@@ -10,14 +10,13 @@ def _asciify(char):
 def _get_accented_characters(char):
     return [u for u in (chr(i) for i in range(65536)) if u != char and _asciify(u) == char]
 
-def _get_confusable_chars(character, unicode_confusable_map, remaining_chars):
+def _get_confusable_chars(character, unicode_confusable_map, depth):
     mapped_chars = unicode_confusable_map[character]
-    remaining_chars.remove(character)
 
-    group = [character]
-    for mapped_char in mapped_chars:
-        if mapped_char in remaining_chars:
-            group.extend(_get_confusable_chars(mapped_char, unicode_confusable_map, remaining_chars))
+    group = set([character])
+    if depth <= MAX_SIMILARITY_DEPTH:
+        for mapped_char in mapped_chars:
+            group.update(_get_confusable_chars(mapped_char, unicode_confusable_map, depth + 1))
     return group
 
 def parse_new_mapping_file():
@@ -29,7 +28,7 @@ def parse_new_mapping_file():
             mappings.extend(custom_mappings)
 
             for mapping_line in mappings:
-                if not mapping_line.strip():
+                if not mapping_line.strip() or mapping_line[0] == '#' or mapping_line[1] == '#':
                     continue
 
                 mapping = mapping_line.split(";")[:2]
@@ -39,45 +38,51 @@ def parse_new_mapping_file():
                 str2 = "".join(mapping[1])
 
                 if unicode_confusable_map.get(str1):
-                    unicode_confusable_map[str1].append(str2)
+                    unicode_confusable_map[str1].add(str2)
                 else:
-                    unicode_confusable_map[str1] = [str2]
+                    unicode_confusable_map[str1] = set([str2])
 
                 if unicode_confusable_map.get(str2):
-                    unicode_confusable_map[str2].append(str1)
+                    unicode_confusable_map[str2].add(str1)
                 else:
-                    unicode_confusable_map[str2] = [str1]
+                    unicode_confusable_map[str2] = set([str1])
 
                 if len(str1) == 1:
                     case_change = str1.lower() if str1.isupper() else str1.upper()
                     if case_change != str1:
-                        unicode_confusable_map[str1].append(case_change)
+                        unicode_confusable_map[str1].add(case_change)
+                        if unicode_confusable_map.get(case_change) is not None:
+                            unicode_confusable_map[case_change].add(str1)
+                        else:
+                            unicode_confusable_map[case_change] = set([str1])
 
                 if len(str2) == 1:
                     case_change = str2.lower() if str2.isupper() else str2.upper()
                     if case_change != str2:
-                        unicode_confusable_map[str2].append(case_change)
+                        unicode_confusable_map[str2].add(case_change)
+                        if unicode_confusable_map.get(case_change) is not None:
+                            unicode_confusable_map[case_change].add(str2)
+                        else:
+                            unicode_confusable_map[case_change] = set([str2])
 
     for char in string.ascii_lowercase:
         accented = _get_accented_characters(char)
-        unicode_confusable_map[char].extend(accented)
+        unicode_confusable_map[char].update(accented)
         for accent in accented:
-            unicode_confusable_map[accent] = char
+            unicode_confusable_map[accent] = set([char])
 
     for char in string.ascii_uppercase:
         accented = _get_accented_characters(char)
-        unicode_confusable_map[char].extend(accented)
+        unicode_confusable_map[char].update(accented)
         for accent in accented:
-            unicode_confusable_map[accent] = char
+            unicode_confusable_map[accent] = set([char])
 
     CONFUSABLE_MAP = {}
     characters_to_map = list(unicode_confusable_map.keys())
-    while 0 != len(characters_to_map):
-        character = characters_to_map[0]
-        char_group = _get_confusable_chars(character, unicode_confusable_map, characters_to_map)
+    for character in list(unicode_confusable_map.keys()):
+        char_group = _get_confusable_chars(character, unicode_confusable_map, 0)
 
-        for i in range(len(char_group)):
-            CONFUSABLE_MAP[char_group[i]] = char_group[:i] + char_group[i+1:]
+        CONFUSABLE_MAP[character] = list(char_group)
 
     mapping_file = open(os.path.join(os.path.dirname(__file__), CONFUSABLE_MAPPING_PATH), "w")
     mapping_file.write(json.dumps(CONFUSABLE_MAP))
