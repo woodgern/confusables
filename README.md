@@ -14,7 +14,7 @@ attempts to get past a profanity filter.
 ## Installation
 
 Confusables can be installed through pip using
-`pip install confusables`
+`pip3 install confusables`
 
 
 ## Usage
