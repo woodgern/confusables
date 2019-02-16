@@ -1,7 +1,7 @@
 import json
 import re
 import os
-from config import CONFUSABLE_MAPPING_PATH
+from .config import CONFUSABLE_MAPPING_PATH
 
 
 # read confusable mappings from file, build 2-way map of the pairs
@@ -43,9 +43,9 @@ def is_confusable(str1, str2):
     return True
 
 def confusable_characters(char):
-    return CONFUSABLE_MAP[char]
+    return CONFUSABLE_MAP.get(char)
 
-def build_confusable_regex(string):
+def confusable_regex(string):
     space_regex = "[\*|_|~|`|-|\.]*"
     regex = "\\b" + space_regex
     for char in string:
