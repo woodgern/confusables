@@ -18,7 +18,8 @@ class TestConfusables(unittest.TestCase):
                     self.assertTrue(u in confusable_characters(mapped_char))
 
     def test_confusable_regex__basic_ascii_regex(self):
-        regex = confusable_regex('bore')
+        regex = confusable_regex('bore', include_character_padding=True)
         reg = re.compile(regex)
+        print(reg.search('Sometimes people say that life can be a ь.𝞂.ř.ɜ, but I don\'t agree'))
         self.assertTrue(reg.search('Sometimes people say that life can be a ь.𝞂.ř.ɜ, but I don\'t agree'))
         self.assertFalse(reg.search('Hopefully you don\'t get bored easily'))

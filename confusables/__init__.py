@@ -45,8 +45,8 @@ def is_confusable(str1, str2):
 def confusable_characters(char):
     return CONFUSABLE_MAP.get(char)
 
-def confusable_regex(string):
-    space_regex = "[\*|_|~|`|-|\.]*"
+def confusable_regex(string, include_character_padding=False):
+    space_regex = "[\*|_|~|`|-|\.]*" if include_character_padding else ''
     regex = "\\b" + space_regex
     for char in string:
         regex += "[" + "|".join(CONFUSABLE_MAP[char]) + "|" + char + "]" + space_regex
