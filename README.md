@@ -9,7 +9,7 @@ Confusables uses the unicode confusable characters list (https://www.unicode.org
 along with other methods of matching characters.
 
 This package can be used for any application where detecting words using any unexpected characters to pass filters
-is required. This could include be finding fake website names, analyzing or normalizing text data, or even detecting
+is required. This could include finding malicious fake website names, analyzing or normalizing text data, or even detecting
 attempts to get past a profanity filter.
 
 
