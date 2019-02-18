@@ -57,6 +57,17 @@ print(reg.search('Hopefully you don\'t get bored easily'))
 # prints None (bored has the word bore as a subset, but it is not a word on it's own)
 ```
 
+`normalize(string, prioritize_alpha=False)` takes a string and outputs a list of possible "normal forms". This means that characters in the string get converted to their confusable ascii counterparts. The `prioritize_alpha` option means the outputted options will prioritize converting characters to characters of the latin alphabet over any others. This option is recommended when natural language is expected.
+```
+from confusables import normalize
+
+print(normalize('Ʀỏ𝕍3ℛ', prioritize_alpha=True))
+# prints ['rov3r', 'rover']
+
+print(normalize('Ʀỏ𝕍3ℛ', prioritize_alpha=False))
+# prints ['r0v3r', 'r0ver', 'ro\'v3r', 'ro\'ver', 'rov3r', 'rover']
+```
+
 ## About confusables
 
 This module is something I put together because I'm interested in the field of language processing. I'm hoping to build out it's functionality, and I'm more than happy to take suggestions!
