@@ -25,6 +25,7 @@ The functions in the confusables module focus around comparing and finding strin
 
 Currently, confusables provides: `is_confusable`, `confusable_characters`, and `confusable_regex`
 
+
 `is_confusable(string1, string2)` takes in 2 strings and outputs whether or not the two are "confusable". Keep in mind that in some cases, a single character can be confusable with 2 characters combined (eg. ‼ is a single character, !! is two)
 ```
 from confusables import is_confusable
@@ -34,6 +35,7 @@ print(is_confusable('rover', 'Ʀỏ𝕍3ℛ'))
 ```
 
 
+
 `confusable_characters(char)` takes in a character and outputs a list of characters that are confusable with it. In some cases, as mentioned above, a single characters can be confusables with multiple characters, in which case those characters will be inluded in the list in the form of a string.
 ```
 from confusables import confusables_characters
@@ -41,6 +43,7 @@ from confusables import confusables_characters
 print(confusable_characters('c'))
 # prints ['ċ', 'ᴄ', '𝔠', '𝒄', '𝗰', '𝗖', 'ḉ', 'ℂ', 'Ꮯ', 'ć', 'c̦', '𝑐', '𝓬', '𝚌', '𐌂', 'Ⅽ', 'С', '𝘤', 'ｃ', 'ҫ', '𝖈', '🝌', '𝖢', '𝐂', 'C', '𝓒', 'Ç', '𝘾', 'ç', 'Ⲥ', 'с', 'ⅽ', 'ĉ', '𐔜', 'c', 'ℭ', 'ϲ', '𑣩', 'Ϲ', '𝕮', 'č', '𐊢', 'Ĉ', '𝑪', 'Ｃ', '𑣲', '𐐕', '𐐽', 'ⲥ', '𝐶', 'Ċ', 'C̦', 'ꮯ', '𝒞', '𝕔', '𝘊', 'Č', 'ꓚ', '𝒸', '𝐜', '𝙲', '𝖼', 'Ć', '𝙘', 'Ḉ']
 ```
+
 
 `confusable_regex(string, include_character_padding=False)` takes a string and outputs a regex string that matches words that are confusable with the input string.
 ```
@@ -56,6 +59,7 @@ print(regex.search('Sometimes people say that life can be a ь.𝞂.ř.ɜ, but I
 print(reg.search('Hopefully you don\'t get bored easily'))
 # prints None (bored has the word bore as a subset, but it is not a word on it's own)
 ```
+
 
 `normalize(string, prioritize_alpha=False)` takes a string and outputs a list of possible "normal forms". This means that characters in the string get converted to their confusable ascii counterparts. The `prioritize_alpha` option means the outputted options will prioritize converting characters to characters of the latin alphabet over any others. This option is recommended when natural language is expected.
 ```
