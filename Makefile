@@ -10,3 +10,6 @@ update:
 test:
 	python3 -m unittest discover
 
+release:
+	python3 -m twine upload dist/*
+
