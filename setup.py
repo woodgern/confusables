@@ -8,7 +8,7 @@ setuptools.setup(
     version="0.1.3",
     author="Nathan Woodger",
     author_email="woodgern@gmail.com",
-    description="A python package providing functionality for matching words using different characters but appearing to be similar/the same word.",
+    description="A python package providing functionality for matching words that can be confused for eachother, but contain different characters",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/woodgern/confusables",
