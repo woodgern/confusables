@@ -1,5 +1,6 @@
 [![Build Status](https://travis-ci.org/woodgern/confusables.svg?branch=master)](https://travis-ci.org/woodgern/confusables) [![PyPI version](https://badge.fury.io/py/confusables.svg)](https://badge.fury.io/py/confusables)
 
+
 # Confusables
 
 Confusables is a python package that provides functionality for analyzing and matching words that "appear"
