@@ -37,12 +37,13 @@ def is_confusable(str1, str2):
 def confusable_characters(char):
     return CONFUSABLE_MAP.get(char)
 
-def confusable_regex(string, include_character_padding=False):
+def confusable_regex(string, include_character_padding=False, match_subword=False):
     space_regex = "[\*|_|~|`|-|\.]*" if include_character_padding else ''
-    regex = "\\b" + space_regex
+    prepostfix = '' if match_subword else '\\b'
+    regex = prepostfix + space_regex
     for char in string:
         regex += "[" + "|".join(CONFUSABLE_MAP[char]) + "|" + char + "]" + space_regex
-    regex += "\\b"
+    regex += prepostfix
 
     return regex
 

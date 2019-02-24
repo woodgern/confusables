@@ -59,6 +59,12 @@ class TestConfusables(unittest.TestCase):
         self.assertFalse(reg.search('Sometimes people say that life can be a ь.𝞂.ř.ɜ, but I don\'t agree'))
         self.assertTrue(reg.search('Sometimes people say that life can be a ь𝞂řɜ, but I don\'t agree'))
 
+    def test_confusable_regex__match_subwords(self):
+        regex = confusable_regex('bore', match_subword=True)
+        reg = re.compile(regex)
+        self.assertTrue(reg.search('Sometimes people say that life can be a ь𝞂řɜd, but I don\'t agree'))
+        self.assertTrue(reg.search('Sometimes people say that life can be a ь𝞂řɜ, but I don\'t agree'))
+
     def test_normalize__prioritize_alpha_True_and_False(self):
         self.assertEqual(normalize('Ʀỏ𝕍3ℛ', prioritize_alpha=True), ['rov3r', 'rover'])
         self.assertEqual(normalize('Ʀỏ𝕍3ℛ'), normalize('Ʀỏ𝕍3ℛ', prioritize_alpha=False), ['r0v3r', 'r0ver', 'ro\'v3r', 'ro\'ver', 'rov3r', 'rover'])
