@@ -5,7 +5,7 @@ long_description = open(os.path.join(os.path.dirname(__file__), 'README.md')).re
 
 setuptools.setup(
     name="confusables",
-    version="0.1.5",
+    version="0.2.0",
     author="Nathan Woodger",
     author_email="woodgern@gmail.com",
     description="A python package providing functionality for matching words that can be confused for eachother, but contain different characters",
