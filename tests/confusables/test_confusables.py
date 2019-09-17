@@ -33,20 +33,20 @@ class TestConfusables(unittest.TestCase):
         self.assertFalse(is_confusable('', 'rover is my favourite dog'))
 
     def test_confusable_characters__is_two_way(self):
-        for u in [chr(i) for i in range(65536)]:
+        for u in [chr(i) for i in range(137928)]:
             mapped_chars = confusable_characters(u)
             if mapped_chars:
                 for mapped_char in mapped_chars:
                     self.assertTrue(u in confusable_characters(mapped_char))
 
-    def test_confusable_characters__no_confusables_returns_None(self):
-        self.assertEqual(confusable_characters(''), None)
-        self.assertEqual(confusable_characters('This is a long string that has no chance being confusable with a single character'), None)
+    def test_confusable_characters__no_confusables_returns_input_character_if_length_is_zero(self):
+        self.assertEqual(confusable_characters(''), [''])
 
-    def test_confusable_regex__regex_does_not_match_if_only_subset_of_word(self):
-        regex = confusable_regex('bore')
-        reg = re.compile(regex)
-        self.assertFalse(reg.search('Hopefully you don\'t get bored easily'))
+    def test_confusable_characters__no_confusables_returns_input_character_if_length_is_one(self):
+        self.assertEqual(confusable_characters('#'), ['#'])
+
+    def test_confusable_characters__no_confusables_returns_none_if_length_is_not_one(self):
+        self.assertEqual(confusable_characters('This is a long string that has no chance being confusable with a single character'), None)
 
     def test_confusable_regex__basic_ascii_regex_with_padding(self):
         regex = confusable_regex('bore', include_character_padding=True)
@@ -60,7 +60,7 @@ class TestConfusables(unittest.TestCase):
         self.assertTrue(reg.search('Sometimes people say that life can be a ь𝞂řɜ, but I don\'t agree'))
 
     def test_confusable_regex__match_subwords(self):
-        regex = confusable_regex('bore', match_subword=True)
+        regex = confusable_regex('bore')
         reg = re.compile(regex)
         self.assertTrue(reg.search('Sometimes people say that life can be a ь𝞂řɜd, but I don\'t agree'))
         self.assertTrue(reg.search('Sometimes people say that life can be a ь𝞂řɜ, but I don\'t agree'))
