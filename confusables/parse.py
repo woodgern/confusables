@@ -8,7 +8,7 @@ def _asciify(char):
     return normalize('NFD',char).encode('ascii', 'ignore').decode('ascii')
 
 def _get_accented_characters(char):
-    return [u for u in (chr(i) for i in range(65536)) if u != char and _asciify(u) == char]
+    return [u for u in (chr(i) for i in range(137928)) if u != char and _asciify(u) == char]
 
 def _get_confusable_chars(character, unicode_confusable_map, depth):
     mapped_chars = unicode_confusable_map[character]
