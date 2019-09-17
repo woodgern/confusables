@@ -56,10 +56,8 @@ regex = re.compile(regex_string)
 
 print(regex.search('Sometimes people say that life can be a ь.𝞂.ř.ɜ, but I don\'t agree'))
 # prints <_sre.SRE_Match object; span=(40, 47), match='ь.𝞂.ř.ɜ'>
-
-print(reg.search('Hopefully you don\'t get bored easily'))
-# prints None (bored has the word bore as a subset, but it is not a word on it's own)
 ```
+
 
 
 `normalize(string, prioritize_alpha=False)` takes a string and outputs a list of possible "normal forms". This means that characters in the string get converted to their confusable ascii counterparts. The `prioritize_alpha` option means the outputted options will prioritize converting characters to characters of the latin alphabet over any others. This option is recommended when natural language is expected.
