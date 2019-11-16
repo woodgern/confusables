@@ -46,7 +46,7 @@ def confusable_regex(string, include_character_padding=False):
     space_regex = "[\*_~|`\-\.]*" if include_character_padding else ''
     regex = space_regex
     for char in string:
-        regex += "[" + "|".join(confusable_characters(char)) + "]" + space_regex
+        regex += "(?:" + "|".join(confusable_characters(char)) + ")" + space_regex
 
     return regex
 
