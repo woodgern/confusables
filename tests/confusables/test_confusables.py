@@ -65,6 +65,17 @@ class TestConfusables(unittest.TestCase):
         self.assertTrue(reg.search('Sometimes people say that life can be a ь𝞂řɜd, but I don\'t agree'))
         self.assertTrue(reg.search('Sometimes people say that life can be a ь𝞂řɜ, but I don\'t agree'))
 
+    def test_confusable_regex__match_multi_character_confusion(self):
+        regex = confusable_regex('‷')
+        reg = re.compile(regex)
+        self.assertFalse(reg.search('Sometimes people say that life can be \' , but I don\'t agree'))
+        self.assertTrue(reg.search('Sometimes people say that life can be \'\'\' , but I don\'t agree'))
+
+    def test_confusable_regex__dont_treat_pipe_as_wildcard(self):
+        regex = confusable_regex('bore')
+        reg = re.compile(regex)
+        self.assertFalse(reg.search('Sometimes people say that life can be a ||||, but I don\'t agree'))
+
     def test_normalize__prioritize_alpha_True_and_False(self):
         self.assertEqual(normalize('Ʀỏ𝕍3ℛ', prioritize_alpha=True), ['rov3r', 'rover'])
         self.assertEqual(normalize('Ʀỏ𝕍3ℛ'), normalize('Ʀỏ𝕍3ℛ', prioritize_alpha=False), ['r0v3r', 'r0ver', 'ro\'v3r', 'ro\'ver', 'rov3r', 'rover'])
