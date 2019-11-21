@@ -76,6 +76,12 @@ class TestConfusables(unittest.TestCase):
         reg = re.compile(regex)
         self.assertFalse(reg.search('Sometimes people say that life can be a ||||, but I don\'t agree'))
 
+    def test_confusable_regex__regex_special_characters_are_escaped(self):
+        regex = confusable_regex('e|mo')
+        reg = re.compile(regex)
+        self.assertTrue(reg.search('elmo'))
+        self.assertFalse(reg.search('emo'))
+
     def test_normalize__prioritize_alpha_True_and_False(self):
         self.assertEqual(normalize('Ʀỏ𝕍3ℛ', prioritize_alpha=True), ['rov3r', 'rover'])
         self.assertEqual(normalize('Ʀỏ𝕍3ℛ'), normalize('Ʀỏ𝕍3ℛ', prioritize_alpha=False), ['r0v3r', 'r0ver', 'ro\'v3r', 'ro\'ver', 'rov3r', 'rover'])
