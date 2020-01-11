@@ -39,7 +39,7 @@ print(is_confusable('rover', 'Ʀỏ𝕍3ℛ'))
 
 `confusable_characters(char)` takes in a character and outputs a list of characters that are confusable with it. In some cases, as mentioned above, a single characters can be confusables with multiple characters, in which case those characters will be inluded in the list in the form of a string.
 ```
-from confusables import confusables_characters
+from confusables import confusable_characters
 
 print(confusable_characters('c'))
 # prints ['ċ', 'ᴄ', '𝔠', '𝒄', '𝗰', '𝗖', 'ḉ', 'ℂ', 'Ꮯ', 'ć', 'c̦', '𝑐', '𝓬', '𝚌', '𐌂', 'Ⅽ', 'С', '𝘤', 'ｃ', 'ҫ', '𝖈', '🝌', '𝖢', '𝐂', 'C', '𝓒', 'Ç', '𝘾', 'ç', 'Ⲥ', 'с', 'ⅽ', 'ĉ', '𐔜', 'c', 'ℭ', 'ϲ', '𑣩', 'Ϲ', '𝕮', 'č', '𐊢', 'Ĉ', '𝑪', 'Ｃ', '𑣲', '𐐕', '𐐽', 'ⲥ', '𝐶', 'Ċ', 'C̦', 'ꮯ', '𝒞', '𝕔', '𝘊', 'Č', 'ꓚ', '𝒸', '𝐜', '𝙲', '𝖼', 'Ć', '𝙘', 'Ḉ']
