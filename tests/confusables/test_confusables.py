@@ -5,6 +5,7 @@ import re
 
 from confusables import is_confusable, confusable_characters, confusable_regex, normalize
 
+
 class TestConfusables(unittest.TestCase):
 
     def test_is_confusable__unicode_mapping_only(self):
