@@ -34,6 +34,7 @@ def is_confusable(str1, str2):
             str2 = str2[length2:]
     return str1 == str2
 
+
 def confusable_characters(char):
     mapped_chars = CONFUSABLE_MAP.get(char)
     if mapped_chars:
@@ -42,8 +43,9 @@ def confusable_characters(char):
         return [char]
     return None
 
+
 def confusable_regex(string, include_character_padding=False):
-    space_regex = "[\*_~|`\-\.]*" if include_character_padding else ''
+    space_regex = r"[\*_~|`\-\.]*" if include_character_padding else ''
     regex = space_regex
     for char in string:
         escaped_chars = [re.escape(c) for c in confusable_characters(char)]
@@ -51,8 +53,9 @@ def confusable_regex(string, include_character_padding=False):
 
     return regex
 
+
 def normalize(string, prioritize_alpha=False):
-    normal_forms = set([""])
+    normal_forms = {""}
     for char in string:
         normalized_chars = []
         confusable_chars = confusable_characters(char)
