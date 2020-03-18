@@ -6,7 +6,7 @@
 Confusables is a python package that provides functionality for analyzing and matching words that "appear"
 to be the same or similar, but use different characters.
 
-Confusables uses the unicode confusable characters list (https://www.unicode.org/Public/security/8.0.0/confusables.txt)
+Confusables uses the unicode confusable characters list (https://www.unicode.org/Public/security/13.0.0/confusables.txt)
 along with other methods of matching characters.
 
 This package can be used for any application where detecting words using any unexpected characters to pass filters
