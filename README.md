@@ -1,4 +1,6 @@
-[![Build Status](https://travis-ci.org/woodgern/confusables.svg?branch=master)](https://travis-ci.org/woodgern/confusables) [![PyPI version](https://badge.fury.io/py/confusables.svg)](https://badge.fury.io/py/confusables)
+[![Build Status](https://travis-ci.org/woodgern/confusables.svg?branch=master)](https://travis-ci.org/woodgern/confusables) 
+[![PyPI version](https://badge.fury.io/py/confusables.svg)](https://badge.fury.io/py/confusables) 
+[![PEP8](https://img.shields.io/badge/code%20style-pep8-orange.svg)](https://www.python.org/dev/peps/pep-0008/)
 
 
 # Confusables
