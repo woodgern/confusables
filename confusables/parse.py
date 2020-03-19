@@ -44,12 +44,12 @@ def parse_new_mapping_file():
                 if unicode_confusable_map.get(str1):
                     unicode_confusable_map[str1].add(str2)
                 else:
-                    unicode_confusable_map[str1] = set([str2])
+                    unicode_confusable_map[str1] = {str2}
 
                 if unicode_confusable_map.get(str2):
                     unicode_confusable_map[str2].add(str1)
                 else:
-                    unicode_confusable_map[str2] = set([str1])
+                    unicode_confusable_map[str2] = {str1}
 
                 if len(str1) == 1:
                     case_change = str1.lower() if str1.isupper() else str1.upper()
@@ -58,7 +58,7 @@ def parse_new_mapping_file():
                         if unicode_confusable_map.get(case_change) is not None:
                             unicode_confusable_map[case_change].add(str1)
                         else:
-                            unicode_confusable_map[case_change] = set([str1])
+                            unicode_confusable_map[case_change] = {str1}
 
                 if len(str2) == 1:
                     case_change = str2.lower() if str2.isupper() else str2.upper()
@@ -67,7 +67,7 @@ def parse_new_mapping_file():
                         if unicode_confusable_map.get(case_change) is not None:
                             unicode_confusable_map[case_change].add(str2)
                         else:
-                            unicode_confusable_map[case_change] = set([str2])
+                            unicode_confusable_map[case_change] = {str2}
 
     for char in string.ascii_lowercase:
         accented = _get_accented_characters(char)
@@ -76,7 +76,7 @@ def parse_new_mapping_file():
             if unicode_confusable_map.get(accent):
                 unicode_confusable_map[accent].add(char)
             else:
-                unicode_confusable_map[accent] = set([char])
+                unicode_confusable_map[accent] = {char}
 
     for char in string.ascii_uppercase:
         accented = _get_accented_characters(char)
@@ -85,7 +85,7 @@ def parse_new_mapping_file():
             if unicode_confusable_map.get(accent):
                 unicode_confusable_map[accent].add(char)
             else:
-                unicode_confusable_map[accent] = set([char])
+                unicode_confusable_map[accent] = {char}
 
     CONFUSABLE_MAP = {}
     characters_to_map = list(unicode_confusable_map.keys())
