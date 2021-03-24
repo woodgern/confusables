@@ -71,6 +71,21 @@ print(normalize('Ʀỏ𝕍3ℛ', prioritize_alpha=False))
 # prints ['r0v3r', 'r0ver', 'ro\'v3r', 'ro\'ver', 'rov3r', 'rover']
 ```
 
+## Updating to the latest Unicode confusables version
+
+If you find the latest version of this package to have an out of date version of the unicode official `confusables.txt`, then why not submit a PR to update it!
+
+First, find out what the latest version of unicode confusables is. Then, run
+```
+make update VERSION=X.Y.Z
+```
+
+Next, run
+```
+make parse
+```
+And that's it! Commit your changes and create a pull request.
+
 ## About confusables
 
 This module is something I put together because I'm interested in the field of language processing. I'm hoping to build out it's functionality, and I'm more than happy to take suggestions!
