@@ -48,7 +48,7 @@ def parse_new_mapping_file():
                     unicode_confusable_map[str2] = {str1}
 
                 if len(str1) == 1:
-                    case_change = str1.lower() if str1.isupper() else str1.upper()
+                    case_change = str1.swapcase()
                     unicode_confusable_map[str1].add(case_change)
                     if unicode_confusable_map.get(case_change) is not None:
                         unicode_confusable_map[case_change].add(str1)
@@ -56,7 +56,7 @@ def parse_new_mapping_file():
                         unicode_confusable_map[case_change] = {str1}
 
                 if len(str2) == 1:
-                    case_change = str2.lower() if str2.isupper() else str2.upper()
+                    case_change = str2.swapcase()
                     unicode_confusable_map[str2].add(case_change)
                     if unicode_confusable_map.get(case_change) is not None:
                         unicode_confusable_map[case_change].add(str2)
