@@ -55,7 +55,7 @@ def normalize(string, prioritize_alpha=False):
     for char in string:
         normalized_chars = []
         confusable_chars = confusable_characters(char)
-        if not char.isascii():
+        if not (char.isascii() and char.isalnum()):
             for confusable in confusable_chars:
                 if prioritize_alpha:
                     if ((char.isalpha() and confusable.isalpha() and confusable.isascii()) or (not char.isalpha() and confusable.isascii())) and confusable not in NON_NORMAL_ASCII_CHARS:
