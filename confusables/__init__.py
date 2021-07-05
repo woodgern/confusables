@@ -50,12 +50,12 @@ def confusable_regex(string, include_character_padding=False):
 
     return regex
 
-def normalize(string, prioritize_alpha=False,ignore_all_ascii=False):
+def normalize(string, prioritize_alpha=False):
     normal_forms = {""}
     for char in string:
         normalized_chars = []
         confusable_chars = confusable_characters(char)
-        if not char.isascii() or not (char.isalnum() or ignore_all_ascii):
+        if not char.isascii():
             for confusable in confusable_chars:
                 if prioritize_alpha:
                     if ((char.isalnum() and confusable.isalnum() and confusable.isascii()) or (not char.isalnum() and confusable.isascii())) and confusable not in NON_NORMAL_ASCII_CHARS:
