@@ -4,12 +4,11 @@ import os
 from itertools import product
 
 from .config import CONFUSABLE_MAPPING_PATH, NON_NORMAL_ASCII_CHARS
-from .utils import is_ascii
 
 
 # read confusable mappings from file, build 2-way map of the pairs
 with open(os.path.join(os.path.dirname(__file__), CONFUSABLE_MAPPING_PATH), "r") as mappings:
-    CONFUSABLE_MAP = json.loads(mappings.readline())
+    CONFUSABLE_MAP = json.load(mappings)
 
 
 def is_confusable(str1, str2):
@@ -52,20 +51,20 @@ def confusable_regex(string, include_character_padding=False):
     return regex
 
 def normalize(string, prioritize_alpha=False):
-    normal_forms = set([""])
+    normal_forms = {""}
     for char in string:
         normalized_chars = []
         confusable_chars = confusable_characters(char)
-        if not is_ascii(char) or not char.isalpha():
+        if not (char.isascii() and char.isalnum()):
             for confusable in confusable_chars:
                 if prioritize_alpha:
-                    if ((char.isalpha() and confusable.isalpha() and is_ascii(confusable)) or (not char.isalpha() and is_ascii(confusable))) and confusable not in NON_NORMAL_ASCII_CHARS:
+                    if ((char.isalpha() and confusable.isalpha() and confusable.isascii()) or (not char.isalpha() and confusable.isascii())) and confusable not in NON_NORMAL_ASCII_CHARS:
                         normal = confusable
                         if len(confusable) > 1:
                             normal = normalize(confusable)[0]
                         normalized_chars.append(normal)
                 else:
-                    if is_ascii(confusable) and confusable not in NON_NORMAL_ASCII_CHARS:
+                    if confusable.isascii() and confusable not in NON_NORMAL_ASCII_CHARS:
                         normal = confusable
                         if len(confusable) > 1:
                             normal = normalize(confusable)[0]
@@ -75,5 +74,5 @@ def normalize(string, prioritize_alpha=False):
 
         if len(normalized_chars) == 0:
             normalized_chars = [char]
-        normal_forms = set([x[0]+x[1].lower() for x in list(product(normal_forms, normalized_chars))])
+        normal_forms = {x[0]+x[1].lower() for x in list(product(normal_forms, normalized_chars))}
     return sorted(list(normal_forms))

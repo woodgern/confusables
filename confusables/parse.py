@@ -13,7 +13,7 @@ def _get_accented_characters(char):
 def _get_confusable_chars(character, unicode_confusable_map, depth):
     mapped_chars = unicode_confusable_map[character]
 
-    group = set([character])
+    group = {character}
     if depth <= MAX_SIMILARITY_DEPTH:
         for mapped_char in mapped_chars:
             group.update(_get_confusable_chars(mapped_char, unicode_confusable_map, depth + 1))
@@ -40,30 +40,28 @@ def parse_new_mapping_file():
                 if unicode_confusable_map.get(str1):
                     unicode_confusable_map[str1].add(str2)
                 else:
-                    unicode_confusable_map[str1] = set([str2])
+                    unicode_confusable_map[str1] = {str2}
 
                 if unicode_confusable_map.get(str2):
                     unicode_confusable_map[str2].add(str1)
                 else:
-                    unicode_confusable_map[str2] = set([str1])
+                    unicode_confusable_map[str2] = {str1}
 
                 if len(str1) == 1:
-                    case_change = str1.lower() if str1.isupper() else str1.upper()
-                    if case_change != str1:
-                        unicode_confusable_map[str1].add(case_change)
-                        if unicode_confusable_map.get(case_change) is not None:
-                            unicode_confusable_map[case_change].add(str1)
-                        else:
-                            unicode_confusable_map[case_change] = set([str1])
+                    case_change = str1.swapcase()
+                    unicode_confusable_map[str1].add(case_change)
+                    if unicode_confusable_map.get(case_change) is not None:
+                        unicode_confusable_map[case_change].add(str1)
+                    else:
+                        unicode_confusable_map[case_change] = {str1}
 
                 if len(str2) == 1:
-                    case_change = str2.lower() if str2.isupper() else str2.upper()
-                    if case_change != str2:
-                        unicode_confusable_map[str2].add(case_change)
-                        if unicode_confusable_map.get(case_change) is not None:
-                            unicode_confusable_map[case_change].add(str2)
-                        else:
-                            unicode_confusable_map[case_change] = set([str2])
+                    case_change = str2.swapcase()
+                    unicode_confusable_map[str2].add(case_change)
+                    if unicode_confusable_map.get(case_change) is not None:
+                        unicode_confusable_map[case_change].add(str2)
+                    else:
+                        unicode_confusable_map[case_change] = {str2}
 
     for char in string.ascii_lowercase:
         accented = _get_accented_characters(char)
@@ -72,7 +70,7 @@ def parse_new_mapping_file():
             if unicode_confusable_map.get(accent):
                 unicode_confusable_map[accent].add(char)
             else:
-                unicode_confusable_map[accent] = set([char])
+                unicode_confusable_map[accent] = {char}
 
     for char in string.ascii_uppercase:
         accented = _get_accented_characters(char)
@@ -81,17 +79,16 @@ def parse_new_mapping_file():
             if unicode_confusable_map.get(accent):
                 unicode_confusable_map[accent].add(char)
             else:
-                unicode_confusable_map[accent] = set([char])
+                unicode_confusable_map[accent] = {char}
 
     CONFUSABLE_MAP = {}
-    characters_to_map = list(unicode_confusable_map.keys())
-    for character in list(unicode_confusable_map.keys()):
+    for character in unicode_confusable_map.keys():
         char_group = _get_confusable_chars(character, unicode_confusable_map, 0)
 
         CONFUSABLE_MAP[character] = list(char_group)
 
     mapping_file = open(os.path.join(os.path.dirname(__file__), CONFUSABLE_MAPPING_PATH), "w")
-    mapping_file.write(json.dumps(CONFUSABLE_MAP))
+    json.dump(CONFUSABLE_MAP,mapping_file)
     mapping_file.close()
 
 parse_new_mapping_file()
