@@ -86,6 +86,15 @@ make parse
 ```
 And that's it! Commit your changes and create a pull request.
 
+## Updating custom map
+
+If you spot one or more characters that are not in `confusables.txt`, you can manually add an entry. You can do this with the `custom_confusables.txt` file
+
+Next, run
+```
+make parse
+```
+
 ## About confusables
 
 This module is something I put together because I'm interested in the field of language processing. I'm hoping to build out it's functionality, and I'm more than happy to take suggestions!
